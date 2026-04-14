@@ -1,0 +1,89 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: secretario_postgres
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: secretario
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d secretario"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      network: host
+    image: secretario-backend:local
+    container_name: secretario_backend
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      openclaw:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgres://admin:admin123@secretario_postgres:5432/secretario
+      PAGAMENTOS_CSV_PATH: /app/data/pagamentos.csv
+    volumes:
+      - ./backend:/app
+      - ./backend/data:/app/data
+    command: sh -c "node src/config/setup.js && npm run dev"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      network: host
+    image: secretario-frontend:local
+    container_name: secretario_frontend
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host 0.0.0.0
+
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: secretario_openclaw
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - "8080:8080"
+      - "18789:18789"
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENROUTER_KEY: ${OPENROUTER_KEY}
+    volumes:
+      - ./openclaw_data:/data
+      - ./backend:/workspace/backend
+      - ./frontend:/workspace/frontend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  openclaw_data:
