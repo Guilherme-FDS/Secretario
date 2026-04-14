@@ -4,7 +4,7 @@ Ambiente completo com backend, frontend, banco de dados e agentes de Inteligênc
 
 ---
 
-## 🧠 Visão Geral
+## 🌐 Visão Geral
 
 O **Secretário** é uma plataforma que combina:
 
@@ -15,6 +15,22 @@ O **Secretário** é uma plataforma que combina:
 * Automação e orquestração com Docker
 
 O objetivo é transformar dados financeiros complexos em informações claras e acessíveis para tomada de decisão.
+
+---
+
+## 📸 Demonstração
+
+### 📊 Dashboard
+
+![Dashboard](./docs/dashboard.png)
+
+### 💰 Tela de Pagamentos
+
+![Pagamentos](./docs/pagamentos.png)
+
+### 🤖 Chat com IA
+
+![Chat IA](./docs/chat.png)
 
 ---
 
@@ -32,23 +48,23 @@ O projeto é composto pelos seguintes serviços:
 
 ## 🚀 Funcionalidades
 
-* Visualização de pagamentos
-* Dashboard financeiro
+* Dashboard financeiro com indicadores
+* Listagem e busca de pagamentos
 * Leitura de dados via CSV
-* Integração com IA para interpretação de dados
-* Estrutura para chat com IA
+* Geração de descrições automáticas com IA
+* Chat inteligente para consultas financeiras
 * Ambiente totalmente containerizado
 
 ---
 
-## 🧠 Inteligência Artificial (OpenClaw)
+## 🧠 Inteligência Artificial
 
-O sistema utiliza o OpenClaw para:
+O sistema utiliza IA para:
 
-* Processar dados financeiros
-* Automatizar tarefas
-* Integrar com APIs de IA (OpenRouter / OpenAI)
-* Permitir evolução para agentes autônomos
+* Interpretar dados financeiros
+* Gerar descrições automáticas de pagamentos
+* Responder perguntas em linguagem natural
+* Apoiar tomada de decisão
 
 ---
 
@@ -81,15 +97,14 @@ O sistema utiliza o OpenClaw para:
 
 ## 📁 Estrutura do Projeto
 
-```bash id="jv3f0m"
+```bash
 secretario/
 ├── backend/
 ├── frontend/
-├── openclaw_data/
 ├── docker-compose.yml
-├── .env
 ├── .env.example
 ├── README.md
+└── docs/
 ```
 
 ---
@@ -105,9 +120,9 @@ secretario/
 
 ### 1. Clonar o repositório
 
-```bash id="m2k9y7"
-git clone https://github.com/SEU-USUARIO/secretario.git
-cd secretario
+```bash
+git clone https://github.com/Guilherme-FDS/Secretario.git
+cd Secretario
 ```
 
 ---
@@ -116,7 +131,7 @@ cd secretario
 
 Crie o arquivo `.env`:
 
-```env id="7n7m3w"
+```env
 DATABASE_URL=postgres://admin:admin123@postgres:5432/secretario
 OPENROUTER_API_KEY=sua_chave_aqui
 SECRET_KEY=sua_chave_secreta
@@ -126,7 +141,7 @@ SECRET_KEY=sua_chave_secreta
 
 ### 3. Subir todos os serviços
 
-```bash id="k2m7f9"
+```bash
 docker compose up --build
 ```
 
@@ -134,18 +149,15 @@ docker compose up --build
 
 ## 🌐 Serviços disponíveis
 
-| Serviço     | URL                     |
-| ----------- | ----------------------- |
-| Frontend    | http://localhost:5173   |
-| Backend API | http://localhost:3000   |
-| PostgreSQL  | localhost:5432          |
-| OpenClaw    | interno (via container) |
+| Serviço     | URL                   |
+| ----------- | --------------------- |
+| Frontend    | http://localhost:5173 |
+| Backend API | http://localhost:3000 |
+| PostgreSQL  | localhost:5432        |
 
 ---
 
 ## 📊 Fonte de Dados
-
-O sistema pode trabalhar com:
 
 * Arquivos CSV
 * Dados financeiros estruturados
@@ -156,16 +168,16 @@ O sistema pode trabalhar com:
 ## 🔐 Segurança
 
 * Variáveis sensíveis via `.env`
-* Tokens de IA protegidos
-* Banco de dados isolado em container
+* Tokens protegidos
+* Banco isolado em container
 
 ---
 
 ## 🔮 Evoluções Futuras
 
-* Integração direta com ERP (API)
-* Chat com IA em tempo real
-* Automação com agentes inteligentes
+* Integração com ERP
+* Chat IA em tempo real
+* Automação com agentes
 * Dashboards avançados
 * Integração com WhatsApp
 
